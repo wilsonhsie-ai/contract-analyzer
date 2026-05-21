@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Contract Analyzer | Azure AI Document Intelligence</title>
+  <link rel="stylesheet" href="static/style.css">
+</head>
+<body>
+  <header>
+    <div class="brand">
+      <div class="logo">⚖️</div>
+      <div>
+        <h1>Contract Analyzer</h1>
+        <p>Powered by Azure AI Document Intelligence · prebuilt-contract</p>
+      </div>
+    </div>
+    <div class="mode-toggle">
+      <button id="mode-legal" class="mode-btn active">⚖️ Jurídico</button>
+      <button id="mode-procurement" class="mode-btn">🛒 Procurement</button>
+    </div>
+  </header>
+
+  <main>
+    <section class="upload-card">
+      <h2>1. Faça upload do contrato (PDF, DOCX ou imagem)</h2>
+      <input type="file" id="file-input" accept=".pdf,.docx,.png,.jpg,.jpeg,.tiff">
+      <button id="analyze-btn">Analisar contrato</button>
+      <div id="status" class="status"></div>
+      <div class="samples-hint">
+        <strong>Não tem um contrato à mão?</strong> Baixe um exemplo:
+        <a href="samples/MSA-PT-completo.pdf" download>MSA PT (completo)</a> ·
+        <a href="samples/Contrato-fornecedor-gap.pdf" download>Contrato com gaps</a> ·
+        <a href="samples/MSA-EN-global.pdf" download>MSA EN (global)</a>
+      </div>
+    </section>
+
+    <section id="results" class="hidden">
+      <div class="grid">
+        <div class="card">
+          <h3>📋 Resumo do contrato</h3>
+          <div id="summary"></div>
+        </div>
+        <div class="card">
+          <h3>🤝 Partes</h3>
+          <div id="parties"></div>
+        </div>
+        <div class="card">
+          <h3>📍 Jurisdição</h3>
+          <div id="jurisdictions"></div>
+        </div>
+        <div class="card">
+          <h3>💰 Valores identificados</h3>
+          <div id="money"></div>
+        </div>
+      </div>
+
+      <div id="legal-view" class="view">
+        <h2>⚖️ Visão Jurídica — Análise de cláusulas</h2>
+        <p class="subtitle">Mapa de risco contratual: cláusulas detectadas e gaps potenciais.</p>
+        <div id="legal-clauses" class="clauses-grid"></div>
+      </div>
+
+      <div id="procurement-view" class="view hidden">
+        <h2>🛒 Visão Procurement — Termos comerciais</h2>
+        <p class="subtitle">Condições comerciais, SLAs, reajustes e cláusulas de risco financeiro.</p>
+        <div id="procurement-clauses" class="clauses-grid"></div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    Wilson Hsie · DSAS Microsoft Brasil · Demo de Azure AI · F0 free tier ·
+    <a href="https://github.com/wilsonhsie-ai/contract-analyzer" target="_blank">GitHub</a>
+  </footer>
+
+  <script src="static/app.js"></script>
+</body>
+</html>

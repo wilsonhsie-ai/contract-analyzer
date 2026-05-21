@@ -1,0 +1,7 @@
+node_modules/
+.env
+*.local
+.DS_Store
+.vs/
+.vscode/
+local.settings.json

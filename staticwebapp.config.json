@@ -1,0 +1,12 @@
+{
+  "platform": {
+    "apiRuntime": "node:20"
+  },
+  "routes": [
+    { "route": "/api/analyze", "methods": ["POST"] }
+  ],
+  "navigationFallback": {
+    "rewrite": "/index.html",
+    "exclude": ["/api/*", "/static/*", "/samples/*", "/*.{png,jpg,svg,css,js,pdf}"]
+  }
+}
