@@ -23,12 +23,13 @@
 
   <main>
     <section class="upload-card">
-      <h2>1. Faça upload do contrato (PDF, DOCX ou imagem)</h2>
-      <input type="file" id="file-input" accept=".pdf,.docx,.png,.jpg,.jpeg,.tiff">
-      <button id="analyze-btn">Analisar contrato</button>
+      <h2>Faça upload de até 3 contratos para análise comparativa</h2>
+      <input type="file" id="file-input" accept=".pdf,.docx,.png,.jpg,.jpeg,.tiff" multiple>
+      <div id="file-list" class="file-list"></div>
+      <button id="analyze-btn">Analisar contratos</button>
       <div id="status" class="status"></div>
       <div class="samples-hint">
-        <strong>Não tem um contrato à mão?</strong> Baixe um exemplo:
+        <strong>Não tem contratos à mão?</strong> Baixe os exemplos:
         <a href="samples/MSA-PT-completo.pdf" download>MSA PT (completo)</a> ·
         <a href="samples/Contrato-fornecedor-gap.pdf" download>Contrato com gaps</a> ·
         <a href="samples/MSA-EN-global.pdf" download>MSA EN (global)</a>
@@ -36,35 +37,13 @@
     </section>
 
     <section id="results" class="hidden">
-      <div class="grid">
-        <div class="card">
-          <h3>📋 Resumo do contrato</h3>
-          <div id="summary"></div>
-        </div>
-        <div class="card">
-          <h3>🤝 Partes</h3>
-          <div id="parties"></div>
-        </div>
-        <div class="card">
-          <h3>📍 Jurisdição</h3>
-          <div id="jurisdictions"></div>
-        </div>
-        <div class="card">
-          <h3>💰 Valores identificados</h3>
-          <div id="money"></div>
-        </div>
-      </div>
+      <h2 class="results-title">📋 Resumo dos contratos</h2>
+      <div id="summaries" class="summaries-grid"></div>
 
-      <div id="legal-view" class="view">
-        <h2>⚖️ Visão Jurídica — Análise de cláusulas</h2>
-        <p class="subtitle">Mapa de risco contratual: cláusulas detectadas e gaps potenciais.</p>
-        <div id="legal-clauses" class="clauses-grid"></div>
-      </div>
-
-      <div id="procurement-view" class="view hidden">
-        <h2>🛒 Visão Procurement — Termos comerciais</h2>
-        <p class="subtitle">Condições comerciais, SLAs, reajustes e cláusulas de risco financeiro.</p>
-        <div id="procurement-clauses" class="clauses-grid"></div>
+      <h2 class="results-title" id="compare-title">⚖️ Comparativo de cláusulas — Visão Jurídica</h2>
+      <p class="subtitle" id="compare-subtitle">Mapa de risco contratual: cláusulas detectadas e gaps potenciais por contrato.</p>
+      <div class="comparison-wrapper">
+        <table id="comparison-table" class="comparison-table"></table>
       </div>
     </section>
   </main>
