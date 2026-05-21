@@ -14,6 +14,7 @@ const PROCUREMENT_LABELS = [
 
 let currentMode = 'legal';
 let analyses = [];
+let selectedFiles = [];
 
 $('mode-legal').addEventListener('click', () => switchMode('legal'));
 $('mode-procurement').addEventListener('click', () => switchMode('procurement'));
@@ -35,28 +36,46 @@ function switchMode(mode) {
 }
 
 function handleFileSelect(e) {
-  const files = Array.from(e.target.files || []);
-  if (files.length > MAX_FILES) {
-    setStatus(`⚠️ Máximo ${MAX_FILES} contratos. Selecione novamente.`, 'error');
-    e.target.value = '';
-    $('file-list').innerHTML = '';
-    return;
+  const incoming = Array.from(e.target.files || []);
+  // Acumular: somar aos ja selecionados, deduplicando por nome+tamanho
+  for (const f of incoming) {
+    const dup = selectedFiles.some(s => s.name === f.name && s.size === f.size);
+    if (!dup) selectedFiles.push(f);
   }
-  setStatus('');
-  $('file-list').innerHTML = files.length
-    ? `<strong>${files.length}/${MAX_FILES} selecionados:</strong> ` +
-      files.map(f => `<span class="file-pill">${escapeHtml(f.name)} <small>(${(f.size/1024).toFixed(1)} KB)</small></span>`).join('')
-    : '';
+  if (selectedFiles.length > MAX_FILES) {
+    setStatus(`⚠️ Máximo ${MAX_FILES} contratos. Removendo excedentes.`, 'error');
+    selectedFiles = selectedFiles.slice(0, MAX_FILES);
+  } else {
+    setStatus('');
+  }
+  e.target.value = ''; // permite re-selecionar mesmo arquivo se quiser
+  renderFileList();
+}
+
+function renderFileList() {
+  const list = $('file-list');
+  if (!selectedFiles.length) { list.innerHTML = ''; return; }
+  list.innerHTML =
+    `<strong>${selectedFiles.length}/${MAX_FILES} selecionados:</strong> ` +
+    selectedFiles.map((f, i) =>
+      `<span class="file-pill">${escapeHtml(f.name)} <small>(${(f.size/1024).toFixed(1)} KB)</small>` +
+      ` <button type="button" class="file-remove" data-idx="${i}" title="Remover">×</button></span>`
+    ).join('') +
+    ` <button type="button" id="file-clear" class="file-clear">Limpar todos</button>`;
+  list.querySelectorAll('.file-remove').forEach(btn => {
+    btn.addEventListener('click', () => {
+      selectedFiles.splice(Number(btn.dataset.idx), 1);
+      renderFileList();
+    });
+  });
+  const clr = $('file-clear');
+  if (clr) clr.addEventListener('click', () => { selectedFiles = []; renderFileList(); });
 }
 
 async function analyzeAll() {
-  const files = Array.from($('file-input').files || []);
+  const files = selectedFiles.slice(0, MAX_FILES);
   if (!files.length) {
     setStatus('Selecione pelo menos 1 contrato.', 'error');
-    return;
-  }
-  if (files.length > MAX_FILES) {
-    setStatus(`Máximo ${MAX_FILES} contratos.`, 'error');
     return;
   }
   $('analyze-btn').disabled = true;

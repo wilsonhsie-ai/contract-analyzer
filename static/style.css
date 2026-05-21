@@ -84,6 +84,16 @@ input[type=file] {
   color: var(--text);
 }
 .file-pill small { color: var(--muted); margin-left: 4px; }
+.file-remove {
+  background: none; border: none; color: #a4262c; font-weight: bold;
+  cursor: pointer; margin-left: 6px; padding: 0 4px; font-size: 14px; line-height: 1;
+}
+.file-remove:hover { color: #fff; background: #a4262c; border-radius: 50%; }
+.file-clear {
+  background: none; border: 1px solid var(--border); color: var(--muted);
+  padding: 3px 10px; border-radius: 12px; font-size: 11px; cursor: pointer; margin-left: 8px;
+}
+.file-clear:hover { background: #f3f2f1; color: var(--text); }
 
 button#analyze-btn {
   background: var(--ms-blue);
